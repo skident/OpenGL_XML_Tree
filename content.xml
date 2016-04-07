@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Document>
+
+    <Node name="test-suite 1" color="red" size="10">
+        <Node name="test1" color="red" size="10" />
+        <Node name="test2" color="red" size="10" />
+        <Node name="test3" color="red" size="10" />
+        <Node name="test4" color="red" size="10" />
+        <Node name="test5" color="red" size="10" />
+    </Node>
+    <Node name="test-suite 2" color="red" size="10">
+        <Node name="test1" color="red" size="10" />
+        <Node name="test2" color="red" size="10" />
+        <Node name="test3" color="red" size="10" />
+        <Node name="test4" color="red" size="10" />
+        <Node name="test5" color="red" size="10" />
+    </Node>
+    <Node name="test-suite 3" color="red" size="10">
+        <Node name="test1" color="red" size="10" />
+        <Node name="test2" color="red" size="10" />
+        <Node name="test3" color="red" size="10" />
+        <Node name="test4" color="red" size="10" />
+        <Node name="test5" color="red" size="10" />
+    </Node>
+    <Node name="test-suite 4" color="red" size="10">
+        <Node name="test1" color="red" size="10" />
+        <Node name="test2" color="red" size="10" />
+        <Node name="test3" color="red" size="10" />
+        <Node name="test4" color="red" size="10" />
+        <Node name="test5" color="red" size="10" />
+    </Node>
+    <Node name="test-suite 5" color="red" size="10">
+        <Node name="test1" color="red" size="10" />
+        <Node name="test2" color="red" size="10" />
+        <Node name="test3" color="red" size="10" />
+        <Node name="test4" color="red" size="10" />
+        <Node name="test5" color="red" size="10" />
+    </Node>
+    <Node name="test-suite 6" color="red" size="10">
+        <Node name="test1" color="red" size="10" />
+        <Node name="test2" color="red" size="10" />
+        <Node name="test3" color="red" size="10" />
+        <Node name="test4" color="red" size="10" />
+        <Node name="test5" color="red" size="10" />
+    </Node>
+
+</Document>
