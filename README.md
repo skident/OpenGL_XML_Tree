@@ -6,8 +6,8 @@ For display tree uses OpenGL. Also uses library GLUT for creating window and dra
 
 #How to build:
 
-1. Install OpenGL and GLUT libraries:
- 	Ubuntu# sudo apt-get install freeglut3-dev 
+1. Install OpenGL and GLUT libraries: 
+        Ubuntu# sudo apt-get install freeglut3-dev 
 	details http://web.eecs.umich.edu/~sugih/courses/eecs487/glut-howto/
 
 2. Build tinyxml library:
