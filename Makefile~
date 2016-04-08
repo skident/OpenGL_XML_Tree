@@ -1,8 +1,8 @@
 CC=g++
 CFLAGS=-c -Wall -std=c++0x
 LDFLAGS=
-INCPATH       = -I. -I-L/tinyxml/ 
-LIBS          = $(SUBLIBS) -lGLU -lGL -lglut 
+INCPATH       = -I. -I-L/tinyxml/ #-I-L/GL/
+LIBS          = $(SUBLIBS) -lGLU -lGL -lglut #-L/GL/lib
 
 SOURCES       = main.cpp \
 		drawer.cpp \
