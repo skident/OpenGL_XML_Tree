@@ -5,7 +5,7 @@
 #include "tree.h"
 #include "scene.h"
 
-
+Point gClicked;
 Scene window("Xml tree");
 
 void draw()
@@ -22,20 +22,37 @@ void redraw(ScrollBar::eActionType scrollAction)
 // The GLUT mouse function
 void mouse(int button, int state, int x, int y)
 {
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    if (button == GLUT_LEFT_BUTTON)
     {
-        Point clicked(x, y);
+        if (state == GLUT_DOWN)
+        {
+            Point clicked(x, y);
+            gClicked = clicked;
 
-        // check is click was on scrollbar
-        if (window.isArrowClicked(clicked))
-            return;
+            // check is click was on scrollbar
+            if (window.isArrowClicked(clicked))
+                return;
 
-        // Chek is click was on node
-        if (window.isNodeClicked(clicked))
-            return;
+            // Chek is click was on node
+            if (window.isNodeClicked(clicked))
+                return;
+        }
+        else
+        {
+            gClicked.assign(0,0);
+        }
     }
 }
 
+// if clicked was in window
+void motion(int x, int y)
+{
+    Point clicked(x, y);
+    if (gClicked.y < clicked.y)
+        window.redraw(ScrollBar::act_clicked_down);
+    else if (gClicked.y > clicked.y)
+        window.redraw(ScrollBar::act_clicked_up);
+}
 
 
 void reshape(int w, int h)
@@ -63,6 +80,7 @@ void createWindow(int argc, char** argv)
     glutCreateWindow(window.title.c_str());
     glutDisplayFunc(draw);
     glutMouseFunc(mouse);
+    glutMotionFunc(motion);
 //    glutTimerFunc(Settings::delay, Timer, 0);
 //    glutSpecialFunc(keyboard);
 
@@ -78,8 +96,8 @@ int main(int argc, char** argv)
     Config conf(window.nodeTree);
 
     bool isLoaded = false;
-    if (argc > 1)
-        isLoaded = conf.loadDocument(argv[1]);
+    if (argc > 2)
+        isLoaded = conf.loadDocument(argv[2]);
 
     if (!isLoaded)
         conf.loadDocument("content.xml");
