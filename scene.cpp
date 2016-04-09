@@ -9,46 +9,54 @@ using namespace std;
 
 Scene::Scene(std::string _title, int _width, int _height)
 {
-    m_defaultPoint.assign(25, 25);
-    m_prevStartPoint    = m_defaultPoint;
+    m_prevStartPoint    = Point(lim_padding, lim_padding);
     title               = _title;
     winWidth            = _width;
     winHeight           = _height;
 }
 
-void Scene::redraw(ScrollBar::eActionType scrollAction)
+// Redraw tree and scrollbar (if it exists) considering the new offset
+void Scene::redraw(int offset, bool checkOutOfScope)
 {
-    CoordMap::get()->clear();
-
     glClear(GL_COLOR_BUFFER_BIT);
 
-    Point startPoint;
-    char progress = m_scroll.draw(winWidth, winHeight, nodeTree, scrollAction);
+    CoordMap::get()->clear();
 
-     if (scrollAction == ScrollBar::act_none)
-        startPoint = m_prevStartPoint;
-    else
+    // find out new position of top element
+    int newPosY = m_prevStartPoint.y + offset;
+
+    // if it motion of mouse
+    if (checkOutOfScope)
     {
-        float offsetY = (nodeTree.getVisibleNodesHeight() - winHeight+m_defaultPoint.y) * progress / 100;
-        startPoint.assign(m_defaultPoint.x, m_defaultPoint.y - offsetY);
-    }
-    nodeTree.draw(winWidth - ScrollBar::lim_barWidth, winHeight, startPoint);
+        // if it greater than default padding -> nothing to do here
+        if (newPosY > lim_padding)
+            return;
 
-    m_prevStartPoint = startPoint;
+        Point lastCoords = nodeTree.getLastVisibleCoords(); // get coords of the last visible Node/Leaf
+        // new position of the last visible node is too high -> nothing to do here
+        if (lastCoords.y + offset < winHeight-lim_padding)
+            return;
+    }
+
+    m_prevStartPoint.y += offset; // change position of top element
+
+    // redraw tree
+    nodeTree.draw(winWidth - ScrollBar::lim_barWidth, winHeight, m_prevStartPoint);
+
+    // calculate visible and invisible parts of data in percents
+    int treeHeight = nodeTree.getVisibleNodesHeight(); //height of the whole data in pixels
+    int invisibleTop = (float)(lim_padding-newPosY) / treeHeight * 100;  // convert invisible top pixels into percents
+    int visible = 100;
+
+    // data can't be drawn in the one window (need scrollbar)
+    if (treeHeight > winHeight)
+        visible = (float)winHeight / treeHeight * 100;  // convert visible pixels into percents
+
+    m_scroll.draw(winWidth, winHeight, invisibleTop, visible);
 
     glutSwapBuffers();
 }
 
-bool Scene::isArrowClicked(Point clicked)
-{
-    ScrollBar::eActionType arrow = m_scroll.isArrowClicked(winWidth, winHeight, clicked);
-    if (arrow != ScrollBar::act_none)
-    {
-        redraw(arrow);
-        return true;
-    }
-    return false;
-}
 
 bool Scene::isNodeClicked(Point clicked)
 {
@@ -63,9 +71,9 @@ bool Scene::isNodeClicked(Point clicked)
 
      while(cnode->clicked())
      {
-         redraw();
+         redraw(0, false);
      }
 
-     redraw(); // the last redraw!!!
+     redraw(0, false); // the last redraw!!!
      return true;
 }

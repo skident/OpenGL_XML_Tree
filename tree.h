@@ -28,6 +28,9 @@ public:
     //! Get height of all visible items in pixels
     int getVisibleNodesHeight();
 
+    //! Get coordinates of the last visible object
+    Point getLastVisibleCoords() const;
+
     //! Draw the whole tree
     //! \param winWindth width of window
     //! \param winHeight height of window

@@ -62,6 +62,18 @@ public:
     //! Get count of visible children
     std::size_t getVisibleChildrenCount() const;
 
+	//! Is node opened 
+    bool isOpened() const;
+
+	//! Is node has childrens
+    bool hasChildrens() const;
+
+	//! Get coordinated of node
+    Point getCoords() const;
+
+	//! Get last children if it exists
+    std::shared_ptr<iNode> getLastChild();
+
     //! Check is point in node coordinates
     bool contains(Point point);
 

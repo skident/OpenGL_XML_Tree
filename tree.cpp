@@ -35,14 +35,35 @@ int Tree::getVisibleItemsCount() const
     return count + m_nodeList.size();
 }
 
+Point Tree::getLastVisibleCoords() const
+{
+    if (m_nodeList.empty())
+        return Point(0, 0);
+
+    std::shared_ptr<iNode> node = *m_nodeList.rbegin();
+    while (node->hasChildrens() && node->isOpened())
+    {
+        auto tmp = node->getLastChild();
+        if (!tmp.get())
+            break;
+
+        node = tmp;
+    }
+    return node->getCoords();
+}
+
 // get height of visible nodes
 int Tree::getVisibleNodesHeight()
 {
-    auto count = getVisibleItemsCount();
-    int pixelSize = 0;
-    if (count > 0)
-        pixelSize = count * m_nodeList[0]->getHeight();
-    return pixelSize;
+
+    if (m_nodeList.empty())
+        return 0;
+
+    std::shared_ptr<iNode> topNode = *m_nodeList.begin();
+    auto bottomPoint = getLastVisibleCoords();
+    auto topPoint = topNode->getCoords();
+
+    return bottomPoint.y - topPoint.y + topNode->getHeight();
 }
 
 // draw the whole tree of nodes

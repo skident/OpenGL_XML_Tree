@@ -13,11 +13,6 @@ void draw()
     window.redraw();
 }
 
-void redraw(ScrollBar::eActionType scrollAction)
-{
-    window.redraw(scrollAction);
-}
-
 // mouse
 // The GLUT mouse function
 void mouse(int button, int state, int x, int y)
@@ -28,10 +23,6 @@ void mouse(int button, int state, int x, int y)
         {
             Point clicked(x, y);
             gClicked = clicked;
-
-            // check is click was on scrollbar
-            if (window.isArrowClicked(clicked))
-                return;
 
             // Chek is click was on node
             if (window.isNodeClicked(clicked))
@@ -47,11 +38,8 @@ void mouse(int button, int state, int x, int y)
 // if clicked was in window
 void motion(int x, int y)
 {
-    Point clicked(x, y);
-    if (gClicked.y < clicked.y)
-        window.redraw(ScrollBar::act_clicked_down);
-    else if (gClicked.y > clicked.y)
-        window.redraw(ScrollBar::act_clicked_up);
+    window.redraw(gClicked.y - y, true);
+    gClicked.y = y;
 }
 
 

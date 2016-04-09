@@ -50,6 +50,29 @@ std::size_t iNode::getVisibleChildrenCount() const
     return count;
 }
 
+bool iNode::isOpened() const
+{
+    return (m_isOpened || m_status == status_needOpen);
+}
+
+bool iNode::hasChildrens() const
+{
+    return !m_childrens.empty();
+}
+
+std::shared_ptr<iNode> iNode::getLastChild()
+{
+    std::shared_ptr<iNode> node;
+    if (!m_childrens.empty())
+        node = *m_childrens.rbegin();
+    return node;
+}
+
+Point iNode::getCoords() const
+{
+    return m_topCoord;
+}
+
 bool iNode::contains(Point point)
 {
     return (m_topCoord.y <= point.y && m_topCoord.y+lim_square_size >= point.y);
